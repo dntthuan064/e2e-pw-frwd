@@ -24,8 +24,8 @@ This project is an end-to-end testing framework using Playwright and Cucumber fo
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/e2e-playwright-framework.git
-   cd e2e-playwright-framework
+   git clone https://github.com/{{yourusername}}/e2e-pw-frwd.git
+   cd e2e-pw-frwd
    ```
 
 2. Install dependencies:
