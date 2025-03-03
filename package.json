@@ -1,0 +1,40 @@
+{
+  "name": "e2e-playwright-framework",
+  "version": "1.0.0",
+  "description": "End-to-end testing framework using Playwright and Cucumber",
+  "main": "index.js",
+  "scripts": {
+    "test": "yarn bddgen && yarn playwright test",
+    "e2e": "yarn bddgen && yarn playwright test",
+    "e2e:local": "yarn bddgen && yarn playwright test",
+    "e2e:tag": "yarn bddgen && yarn playwright test",
+    "e2e:tag-local": "yarn bddgen && yarn playwright test",
+    "e2e:ui": "yarn bddgen && yarn playwright test --ui",
+    "e2e:report": "playwright show-report",
+    "bddgen": "node scripts/bddgen.js",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "playwright",
+    "cucumber",
+    "e2e",
+    "testing"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@cucumber/cucumber": "^10.3.1",
+    "@playwright/test": "^1.42.0",
+    "dotenv": "^16.4.5",
+    "lint": "^0.8.19"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.20",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
+    "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
