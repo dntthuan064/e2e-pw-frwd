@@ -1,1 +1,73 @@
+name: E2E Tests
 
+on:
+  workflow_dispatch:
+    inputs:
+      tenant:
+        description: "Tenant to run tests against"
+        required: true
+        default: "tenant A"
+      environment:
+        description: "Environment to run tests against"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+      tags:
+        description: "Tags to run (e.g. @smoke, @regression)"
+        required: true
+        default: "@smoke"
+
+  # schedule:
+  #   - cron: "0 0 * * *" # Default schedule for all tenants
+  #   - cron: "0 0 * * *" # Add separate cron jobs for each tenant if needed
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        tenant: [kcchamber, launchkc] # Add more tenants as needed
+        environment: ${{ github.event.inputs.environment }} ?? 'dev'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "v20.9.0"
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run E2E Tests
+        env:
+          E2E_BASE_URL: ${{ matrix.environment == 'dev' && 'https://dev.example.com' || matrix.environment == 'staging' && 'https://staging.example.com' || 'https://example.com' }}
+          E2E_PORTAL_URL: ${{ matrix.environment == 'dev' && 'https://dev.example.com/portal' || matrix.environment == 'staging' && 'https://staging.example.com/portal' || 'https://example.com/portal' }}
+          E2E_EMAIL_DOMAIN: ${{ matrix.tenant }}.com
+          E2E_LENDER_SUBDOMAIN: ${{ matrix.tenant }}
+          E2E_TAGS: ${{ github.event.inputs.tags || '@smoke' }}
+        run: yarn e2e
+
+      - name: Archive test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          path: playwright-report/**/*
+
+      - name: Archive test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: test-results/**/*
