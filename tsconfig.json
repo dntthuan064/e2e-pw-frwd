@@ -9,7 +9,7 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist",
     "sourceMap": true,
-    "types": ["node", "@playwright/test"],
+    "types": ["node", "@playwright/test", "webdriverio", "@wdio/cucumber-framework"],
     "resolveJsonModule": true
   },
   "include": ["src/**/*", "playwright.config.ts"],
