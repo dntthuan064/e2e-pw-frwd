@@ -4,7 +4,11 @@
   "description": "End-to-end testing framework using Playwright and Cucumber",
   "main": "index.js",
   "scripts": {
-    "test": "yarn bddgen && yarn playwright test",
+    "test": "yarn test:web",
+    "test:web": "yarn cucumber-js -p web",
+    "test:mobile": "yarn cucumber-js -p mobile",
+    "test:android": "yarn cucumber-js -p android",
+    "test:ios": "yarn cucumber-js -p ios",
     "e2e": "yarn bddgen && yarn playwright test",
     "e2e:local": "yarn bddgen && yarn playwright test",
     "e2e:tag": "yarn bddgen && yarn playwright test",
@@ -13,7 +17,9 @@
     "e2e:report": "playwright show-report",
     "bddgen": "node scripts/bddgen.js",
     "lint": "eslint . --ext .ts",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "appium:start": "appium",
+    "report": "open cucumber-report.html"
   },
   "keywords": [
     "playwright",
@@ -26,13 +32,21 @@
   "dependencies": {
     "@cucumber/cucumber": "^10.3.1",
     "@playwright/test": "^1.42.0",
+    "appium": "^2.0.0",
+    "appium-uiautomator2-driver": "^2.0.0",
+    "appium-xcuitest-driver": "^4.0.0",
+    "chai": "^5.2.0",
     "dotenv": "^16.4.5",
-    "lint": "^0.8.19"
+    "lint": "^0.8.19",
+    "webdriverio": "^7.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.20",
+    "@types/webdriverio": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
+    "@wdio/cucumber-framework": "^9.12.1",
+    "@wdio/types": "^9.10.1",
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"

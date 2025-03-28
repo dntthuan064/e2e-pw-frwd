@@ -5,6 +5,7 @@ pipeline {
         string(name: 'LENDERS', defaultValue: 'kcchamber,launchkc', description: 'Comma-separated list of lenders to run tests against')
         string(name: 'E2E_TAGS', defaultValue: '@smoke', description: 'Tags to run (e.g. @smoke, @regression)')
         choice(name: 'ENVIRONMENT', choices: ['dev', 'staging', 'prod'], description: 'Environment to run tests against')
+        booleanParam(name: 'RUN_MOBILE_TESTS', defaultValue: false, description: 'Whether to run mobile tests')
     }
 
     environment {
@@ -14,6 +15,10 @@ pipeline {
         DEV_BASE_URL = 'https://dev.example.com'
         STAGING_BASE_URL = 'https://staging.example.com'
         PROD_BASE_URL = 'https://example.com'
+    }
+
+    tools {
+        nodejs 'NodeJS 18'
     }
 
     stages {
@@ -41,7 +46,7 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
+        stage('Web Tests') {
             steps {
                 script {
                     // Set base URL based on environment
@@ -57,27 +62,17 @@ pipeline {
                             baseUrl = env.PROD_BASE_URL
                             break
                     }
-
-                    // Split lenders string into array
-                    def lenders = params.LENDERS.split(',')
-
-                    // Run tests for each lender
-                    lenders.each { lender ->
-                        try {
-                            sh """
-                                export E2E_BASE_URL="${baseUrl}"
-                                export E2E_PORTAL_URL="${baseUrl}/portal"
-                                export E2E_EMAIL_DOMAIN="@${lender}.com"
-                                export E2E_LENDER_SUBDOMAIN="${lender}"
-                                export E2E_TAGS="${params.E2E_TAGS}"
-                                yarn e2e
-                            """
-                        } catch (Exception e) {
-                            echo "Tests failed for lender: ${lender}"
-                            currentBuild.result = 'UNSTABLE'
-                        }
-                    }
                 }
+            }
+
+        stage('Mobile Tests') {
+            when {
+                expression { return params.RUN_MOBILE_TESTS }
+            }
+            steps {
+                sh 'yarn appium:start &'
+                sh 'sleep 5' // Wait for Appium to start
+                sh 'yarn test:mobile'
             }
         }
     }
@@ -90,6 +85,15 @@ pipeline {
 
             // Clean workspace
             cleanWs()
+
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: '.',
+                reportFiles: 'cucumber-report.html,cucumber-web-report.html,cucumber-mobile-report.html',
+                reportName: 'Cucumber Reports'
+            ])
         }
 
         success {
