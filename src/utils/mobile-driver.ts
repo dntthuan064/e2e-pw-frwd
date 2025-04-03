@@ -1,5 +1,9 @@
-import { remote } from 'webdriverio';
-import { ANDROID_CAPABILITIES, IOS_CAPABILITIES, APPIUM_SERVER } from '../config/appium.config';
+import { remote } from "webdriverio";
+import {
+  ANDROID_CAPABILITIES,
+  IOS_CAPABILITIES,
+  APPIUM_SERVER,
+} from "../config/appium.config";
 
 class MobileDriverManager {
   private driver: WebdriverIO.Browser | null = null;
@@ -14,16 +18,19 @@ class MobileDriverManager {
     return MobileDriverManager.instance;
   }
 
-  public async initDriver(platform: 'android' | 'ios'): Promise<WebdriverIO.Browser> {
+  public async initDriver(
+    platform: "android" | "ios",
+  ): Promise<WebdriverIO.Browser> {
     if (this.driver) {
       return this.driver;
     }
 
-    const capabilities = platform === 'android' ? ANDROID_CAPABILITIES : IOS_CAPABILITIES;
-    
+    const capabilities =
+      platform === "android" ? ANDROID_CAPABILITIES : IOS_CAPABILITIES;
+
     this.driver = await remote({
       ...APPIUM_SERVER,
-      capabilities
+      capabilities,
     });
 
     return this.driver;
@@ -31,7 +38,7 @@ class MobileDriverManager {
 
   public getDriver(): WebdriverIO.Browser {
     if (!this.driver) {
-      throw new Error('Driver not initialized. Call initDriver first.');
+      throw new Error("Driver not initialized. Call initDriver first.");
     }
     return this.driver;
   }
@@ -44,4 +51,4 @@ class MobileDriverManager {
   }
 }
 
-export default MobileDriverManager.getInstance(); 
+export default MobileDriverManager.getInstance();

@@ -22,17 +22,20 @@ This is a comprehensive end-to-end testing framework that integrates Playwright 
 ## Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/{{yourUsername}}/e2e-pw-frwd.git
    cd e2e-pw-frwd
    ```
 
 2. Install dependencies:
+
    ```bash
    yarn install
    ```
 
 3. Install Playwright browsers:
+
    ```bash
    npx playwright install --with-deps
    ```
@@ -84,6 +87,7 @@ yarn test:web
 ### Mobile Tests
 
 First, start the Appium server:
+
 ```bash
 yarn appium:start
 ```
@@ -117,7 +121,7 @@ Create feature files in the `src/scenarios` directory:
 
 ```gherkin
 Feature: User Authentication
-  
+
   @web
   Scenario: Login successfully on web
     Given I am on the login page
@@ -140,8 +144,8 @@ Feature: User Authentication
 Create platform-agnostic step definitions in `src/features`:
 
 ```typescript
-Given('I am on the login page', async function(this: CustomWorld) {
-  if (this.platform === 'web' && this.page) {
+Given("I am on the login page", async function (this: CustomWorld) {
+  if (this.platform === "web" && this.page) {
     const loginPage = new LoginPage(this.page);
     await loginPage.goto();
   } else {
@@ -156,6 +160,7 @@ Given('I am on the login page', async function(this: CustomWorld) {
 The project includes a Jenkinsfile for CI/CD integration. Configure your Jenkins pipeline to use the included Jenkinsfile.
 
 The pipeline includes:
+
 - Installation of dependencies
 - Running web tests
 - Optional running of mobile tests
@@ -174,7 +179,7 @@ The pipeline includes:
 Add custom hooks in `src/features/hooks/hooks.ts`:
 
 ```typescript
-Before({ tags: '@customTag' }, async function(this: CustomWorld) {
+Before({ tags: "@customTag" }, async function (this: CustomWorld) {
   // Custom setup for scenarios with @customTag
 });
 ```
@@ -184,6 +189,7 @@ Before({ tags: '@customTag' }, async function(this: CustomWorld) {
 ### Mobile Driver Issues
 
 If you encounter issues with the mobile driver:
+
 - Ensure Appium server is running
 - Check that mobile app paths are correctly configured
 - Verify emulator/simulator is available and running
@@ -191,6 +197,7 @@ If you encounter issues with the mobile driver:
 ### WebdriverIO Types
 
 If TypeScript complains about WebdriverIO types:
+
 ```bash
 yarn add -D @types/webdriverio @wdio/types
 ```

@@ -1,11 +1,11 @@
 export enum LOGIN_PAGE {
-  PATH = '/login',
-  TITLE = 'Login',
+  PATH = "/login",
+  TITLE = "Login",
 }
 
 export enum DASHBOARD_PAGE {
-  PATH = '/dashboard',
-  TITLE = 'Dashboard',
+  PATH = "/dashboard",
+  TITLE = "Dashboard",
 }
 
 export enum TIMEOUT {
@@ -18,4 +18,4 @@ export enum SELECTORS {
   EMAIL_INPUT = 'input[name="email"]',
   PASSWORD_INPUT = 'input[name="password"]',
   LOGIN_BUTTON = 'button[type="submit"]',
-} 
+}

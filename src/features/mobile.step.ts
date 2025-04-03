@@ -33,5 +33,5 @@ Then(
     const driver = mobileDriver.getDriver();
     const element = await driver.$(`~${id}`);
     expect(await element.isDisplayed());
-  }
+  },
 );

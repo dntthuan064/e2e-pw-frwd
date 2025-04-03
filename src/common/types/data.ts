@@ -19,4 +19,4 @@ export class ScenarioData {
 export interface UserCredentials {
   email: string;
   password: string;
-} 
+}

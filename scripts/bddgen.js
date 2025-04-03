@@ -16,11 +16,11 @@ const featureFiles = glob.sync("**/*.feature", { cwd: FEATURES_DIR });
 featureFiles.forEach((featureFile) => {
   const featureContent = fs.readFileSync(
     path.join(FEATURES_DIR, featureFile),
-    "utf8"
+    "utf8",
   );
   const outputFile = path.join(
     OUTPUT_DIR,
-    featureFile.replace(".feature", ".spec.ts")
+    featureFile.replace(".feature", ".spec.ts"),
   );
   const outputDir = path.dirname(outputFile);
 

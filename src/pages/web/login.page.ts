@@ -1,10 +1,10 @@
-import { Page } from '@playwright/test';
+import { Page } from "@playwright/test";
 
 export default class LoginPage {
   constructor(private page: Page) {}
 
   async goto() {
-    await this.page.goto(process.env.BASE_URL + '/login');
+    await this.page.goto(process.env.BASE_URL + "/login");
   }
 
   async enterEmail(email: string) {
@@ -24,4 +24,4 @@ export default class LoginPage {
     await this.enterPassword(password);
     await this.clickLoginButton();
   }
-} 
+}

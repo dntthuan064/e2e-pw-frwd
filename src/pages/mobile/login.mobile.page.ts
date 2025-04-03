@@ -1,10 +1,10 @@
-import BaseMobilePage from './base.mobile.page';
+import BaseMobilePage from "./base.mobile.page";
 
 export default class LoginMobilePage extends BaseMobilePage {
-  private emailFieldId = 'email_field';
-  private passwordFieldId = 'password_field';
-  private loginButtonId = 'login_button';
-  private welcomeMessageId = 'welcome_message';
+  private emailFieldId = "email_field";
+  private passwordFieldId = "password_field";
+  private loginButtonId = "login_button";
+  private welcomeMessageId = "welcome_message";
 
   async enterEmail(email: string): Promise<void> {
     await this.tapElement(this.emailFieldId);
@@ -34,4 +34,4 @@ export default class LoginMobilePage extends BaseMobilePage {
     await this.enterPassword(password);
     await this.tapLoginButton();
   }
-} 
+}

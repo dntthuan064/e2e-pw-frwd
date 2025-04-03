@@ -14,4 +14,4 @@ export interface TestConfig {
 export interface TestContext {
   config: TestConfig;
   currentPage: string;
-} 
+}

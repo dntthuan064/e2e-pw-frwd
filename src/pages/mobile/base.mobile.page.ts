@@ -1,4 +1,4 @@
-import mobileDriver from '../../utils/mobile-driver';
+import mobileDriver from "../../utils/mobile-driver";
 
 export default class BaseMobilePage {
   protected driver: WebdriverIO.Browser;
@@ -22,8 +22,11 @@ export default class BaseMobilePage {
     return element.isDisplayed();
   }
 
-  async waitForElement(accessibilityId: string, timeout = 10000): Promise<void> {
+  async waitForElement(
+    accessibilityId: string,
+    timeout = 10000,
+  ): Promise<void> {
     const element = await this.driver.$(`~${accessibilityId}`);
     await element.waitForDisplayed({ timeout });
   }
-} 
+}

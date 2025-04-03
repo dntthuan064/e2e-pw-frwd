@@ -9,11 +9,7 @@ export interface CustomWorld extends World {
   platform: "web" | "android" | "ios";
   setMobilePlatform(platform: "android" | "ios"): Promise<void>;
   result?: {
-    status:
-      | "PASSED"
-      | "FAILED"
-      | "FLAKY"
-      | "SKIPPED";
+    status: "PASSED" | "FAILED" | "FLAKY" | "SKIPPED";
   };
 }
 
