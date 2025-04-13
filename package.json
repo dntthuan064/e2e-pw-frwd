@@ -13,7 +13,7 @@
     "e2e:local": "yarn bddgen && yarn playwright test",
     "e2e:tag": "yarn bddgen && yarn playwright test",
     "e2e:tag-local": "yarn bddgen && yarn playwright test",
-    "e2e:ui": "yarn bddgen && yarn playwright test --ui",
+    "e2e:ui": "yarn bddgen --tags \"${E2E_TAGS}\" && yarn playwright test --ui",
     "e2e:report": "playwright show-report",
     "bddgen": "node scripts/bddgen.js",
     "lint": "eslint . --ext .ts",

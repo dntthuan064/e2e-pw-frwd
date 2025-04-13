@@ -1,11 +1,12 @@
 import { setWorldConstructor, World, IWorldOptions } from "@cucumber/cucumber";
 import { Browser, Page } from "@playwright/test";
-import mobileDriver from "../utils/mobile-driver";
+import Driver from "../lib/pw-driver";
+import pwMobileDriver from "../utils/pw-mobile-driver";
 
 export interface CustomWorld extends World {
   page?: Page;
   browser?: Browser;
-  mobileDriver?: WebdriverIO.Browser;
+  mobileDriver?: Driver;
   platform: "web" | "android" | "ios";
   setMobilePlatform(platform: "android" | "ios"): Promise<void>;
   result?: {
@@ -16,7 +17,7 @@ export interface CustomWorld extends World {
 class TestWorld extends World implements CustomWorld {
   page?: Page;
   browser?: Browser;
-  mobileDriver?: WebdriverIO.Browser;
+  mobileDriver?: Driver;
   platform: "web" | "android" | "ios" = "web";
 
   constructor(options: IWorldOptions) {
@@ -25,7 +26,7 @@ class TestWorld extends World implements CustomWorld {
 
   async setMobilePlatform(platform: "android" | "ios") {
     this.platform = platform;
-    this.mobileDriver = await mobileDriver.initDriver(platform);
+    this.mobileDriver = await pwMobileDriver.initDriver(platform);
   }
 }
 
