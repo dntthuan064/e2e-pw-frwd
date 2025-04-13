@@ -1,32 +1,63 @@
-import mobileDriver from "../../utils/mobile-driver";
+import pwMobileDriver from "../../utils/pw-mobile-driver";
+import type { Driver } from "../../lib/pw-driver";
 
 export default class BaseMobilePage {
-  protected driver: WebdriverIO.Browser;
+  protected driver: Driver;
 
   constructor() {
-    this.driver = mobileDriver.getDriver();
+    this.driver = pwMobileDriver.getDriver();
   }
 
   async tapElement(accessibilityId: string): Promise<void> {
-    const element = await this.driver.$(`~${accessibilityId}`);
-    await element.click();
+    const element = await this.driver.findElement(
+      "accessibility id",
+      accessibilityId,
+    );
+    if (!element.ELEMENT)
+      throw new Error(
+        `No element found with accessibility id: ${accessibilityId}`,
+      );
+    await this.driver.click(element.ELEMENT);
   }
 
   async inputText(accessibilityId: string, text: string): Promise<void> {
-    const element = await this.driver.$(`~${accessibilityId}`);
-    await element.setValue(text);
+    const element = await this.driver.findElement(
+      "accessibility id",
+      accessibilityId,
+    );
+    if (!element.ELEMENT)
+      throw new Error(
+        `No element found with accessibility id: ${accessibilityId}`,
+      );
+    await this.driver.setValue(element.ELEMENT, text);
   }
 
   async isElementDisplayed(accessibilityId: string): Promise<boolean> {
-    const element = await this.driver.$(`~${accessibilityId}`);
-    return element.isDisplayed();
+    try {
+      const element = await this.driver.findElement(
+        "accessibility id",
+        accessibilityId,
+      );
+      if (!element.ELEMENT) return false;
+      return await this.driver.elementDisplayed(element.ELEMENT);
+    } catch (error) {
+      return false;
+    }
   }
 
   async waitForElement(
     accessibilityId: string,
     timeout = 10000,
   ): Promise<void> {
-    const element = await this.driver.$(`~${accessibilityId}`);
-    await element.waitForDisplayed({ timeout });
+    await this.driver.implicitWaitW3C(timeout);
+    const element = await this.driver.findElement(
+      "accessibility id",
+      accessibilityId,
+    );
+    if (!element.ELEMENT)
+      throw new Error(
+        `No element found with accessibility id: ${accessibilityId}`,
+      );
+    await this.driver.elementDisplayed(element.ELEMENT);
   }
 }
